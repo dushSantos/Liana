@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для самой любимой</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            color: #fff;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+        
+        .initial-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .heart-container {
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .heart {
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ff4d6d" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+            background-size: contain;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        .heart:hover {
+            transform: scale(1.1);
+        }
+        
+        .hidden-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .message {
+            margin-bottom: 30px;
+        }
+        
+        .message p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cats-gif {
+            max-width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ff4d6d" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+            background-size: contain;
+            opacity: 0;
+            animation: float 10s linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="content-wrapper">
+        <div class="initial-content" id="initialContent">
+            <h1>Для самой особенной</h1>
+            <div class="heart-container" id="heartContainer">
+                <div class="heart"></div>
+            </div>
+        </div>
+        
+        <div class="hidden-content" id="hiddenContent">
+            <div class="message">
+                <p>Ты - самое прекрасное,</p>
+                <p>что случилось в моей жизни</p>
+                <p>❤️</p>
+                <p>Я люблю тебя больше,</p>
+                <p>чем слова могут выразить</p>
+            <div class="cats" id="catsGif">
+            <img src="images/cats.gif" alt="Cuddling cats" style="max-width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <script>
+        const heartContainer = document.getElementById('heartContainer');
+        const initialContent = document.getElementById('initialContent');
+        const hiddenContent = document.getElementById('hiddenContent');
+        const floatingHearts = document.getElementById('floatingHearts');
+        
+        // Создаем плавающие сердечки
+        function createFloatingHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    
+                    const size = Math.random() * 20 + 10;
+                    heart.style.width = `${size}px`;
+                    heart.style.height = `${size}px`;
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.opacity = Math.random() * 0.5 + 0.3;
+                    heart.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                    heart.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    floatingHearts.appendChild(heart);
+                }, i * 300);
+            }
+        }
+        
+        // Обработчик клика по сердечку
+        heartContainer.addEventListener('click', () => {
+            initialContent.style.display = 'none';
+            hiddenContent.style.display = 'flex';
+            
+            // Добавляем дополнительные сердечки при клике
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    
+                    const size = Math.random() * 25 + 15;
+                    heart.style.width = `${size}px`;
+                    heart.style.height = `${size}px`;
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.opacity = Math.random() * 0.7 + 0.3;
+                    heart.style.animationDuration = `${Math.random() * 8 + 3}s`;
+                    
+                    floatingHearts.appendChild(heart);
+                }, i * 100);
+            }
+        });
+        
+        // Инициализация
+        createFloatingHearts();
+    </script>
+</body>
+</html>
